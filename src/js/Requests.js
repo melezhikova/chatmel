@@ -1,7 +1,7 @@
 export default class Requests {
   static getAll(link, callback) {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `http://localhost:7000/?method=${link}`);
+    xhr.open('GET', `https://chatmel.herokuapp.com/?method=${link}`);
 
     xhr.addEventListener('load', () => {
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -20,7 +20,7 @@ export default class Requests {
 
   static byIdGET(link, id, callback) {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `http://localhost:7000/?method=${link}&id=${id}`);
+    xhr.open('GET', `https://chatmel.herokuapp.com/?method=${link}&id=${id}`);
     xhr.addEventListener('load', () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         try {
@@ -37,7 +37,7 @@ export default class Requests {
 
   static smthPOST(options, method, callback) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:7000/');
+    xhr.open('POST', 'https://chatmel.herokuapp.com/');
     const request = JSON.stringify({ method, object: options });
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.addEventListener('load', () => {
