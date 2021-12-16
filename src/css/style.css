@@ -1,0 +1,429 @@
+body {
+  font-size: 16px;
+  color: black;
+  padding: 15px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.mainBox {
+  height: 600px;
+}
+
+.mainHeader {
+  display: flex;
+  align-items: center;
+  color: rgb(247, 247, 218);
+  font-size: 1.5em;
+  font-weight: bold;
+  width: 100%;
+  background-color: #80363f;
+  padding: 15px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.userPhoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 15px;
+  background-color: rgb(247, 247, 218);
+}
+
+.mainContainer {
+  display: flex;
+  height: 100%;
+}
+
+.asideMenu {
+  width: 6%;
+  min-width: 60px;
+  color: #80363f;
+  background-color: #f5e5e5;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+.menuItemActive {
+  border-left: 2px solid #80363f;
+}
+
+.asideMenu .menuItemActive {
+  padding-left: 3px;
+}
+
+.choosing {
+  background-color: white;
+}
+
+.menuImage {
+  width: 60%;
+  margin: auto;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0.6;
+}
+
+.menuName {
+  font-size: 0.6em;
+  font-weight: bold;
+  padding-top: 5px;
+  margin: auto;
+}
+
+.chats {
+  width: 24%;
+  height: 100%;
+  background-color: #e99595;
+}
+
+.chatsListHeader, .chatHeader {
+  color: #523e40;
+  font-size: 1.3em;
+  font-weight: bold;
+  border-bottom: 1px solid #e9b7bd;
+}
+
+.chatsListHeader {
+  padding: 20px;
+}
+
+.chatsList {
+  height: 536px;
+}
+
+.chatBox {
+  display: flex;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.activeChat {
+  background-color:  white;
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.chatImage {
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: rgb(247, 247, 218);
+}
+
+.activeChat .chatImage {
+  margin-left: 5px;
+}
+
+.itemName {
+  padding: 15px;
+}
+
+.chatContainer {
+  width: 70%;
+  height: 100%;
+  position: relative;
+}
+
+.chatHeader {
+  display: flex;
+  background-color: #f5e5e5;
+}
+
+.chatInterlocutorPhoto {
+  width: 48px;
+  height: 48px;
+  margin: 8px;
+  border-radius: 50%;
+}
+
+.chatName {
+  padding: 20px;
+}
+
+.messagesContainer {
+  padding: 10px;
+  background-color: #f5e5e5;
+  height: 408px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.withPinned {
+  height: 362px;
+}
+
+.long {
+  height: 536px;
+}
+
+.messageBox {
+  max-width: 80%;
+  display: flex;
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: white;
+}
+
+.messageImage {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.messageDetails {
+  font-size: 0.8em;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.messageAuthor {
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.messageTime {
+  color:rgb(104, 103, 103)
+}
+
+.link {
+  color: #80363f;
+}
+
+.user {
+  display: block;
+  text-align: right;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.user .messageDetails {
+  display: block;
+}
+
+.inputBox {
+  width: 100%;
+  padding: 40px 70px 20px 70px;
+  background-color: #f5e5e5;
+  bottom: 0;
+  position: absolute;
+}
+
+.messageInput {
+  outline: none;
+  width: 100%;
+  border: 1px solid #e9b7bd;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.droparea {
+  color: #80363f;
+  outline: 1px solid #80363f;
+}
+
+.msgWithFiles {
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.sendingFilesBox {
+  padding: 5px;
+  border: 1px solid #e9b7bd;
+  border-top: none;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+}
+
+.imgInMessage {
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+}
+
+.chatTools {
+  display: inline-block;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.addFileBox {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.addFile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  background-image: url('../img/clip.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+}
+
+
+.modalBox, .modalInformBox {
+  visibility: hidden;
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.modalBox::before, .modalInformBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.8;
+  background-color: #f5e5e5;
+  z-index: 99;
+}
+
+.active {
+  visibility: visible;
+}
+
+.modal {
+  font-size: 1.3em;
+  color: rgb(247, 247, 218);
+  width: 40%;
+  left: 30%;
+  top: 30%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #99404a;
+  position: absolute;
+  z-index: 999;
+}
+
+.modalHeader, .modalInfo {
+  text-align: center;
+  margin: 0 0 25px 0;
+}
+
+.registrationMessage {
+  font-size: 0.9em;
+  color: rgb(247, 247, 218);
+  margin-bottom: 10px;
+}
+
+.formName, .btnDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputName {
+  color: #523e40;
+  width: 95%;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.btn, .commandButton {
+  font-size: 0.8em;
+  display: block;
+  text-align: center;
+  width: 70%;
+  border: 1px solid #80363f;
+  border-radius: 5px;
+  padding: 7px;
+  margin-top: 15px;
+  color: rgb(247, 247, 218);
+  background-color: #77252e;
+}
+
+
+.commandButton {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bot {
+  font-style: italic;
+}
+
+.contextmenu {
+  position: absolute;
+  background-color: rgb(245, 189, 189);
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.contextmenuItem {
+  list-style-type: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.pinnedBox {
+  display: flex;
+  justify-content: space-between;
+  color:rgb(104, 103, 103);
+  width: 100%;
+  background-color: #ebc4c4;
+  padding: 5px;
+}
+
+.pinnedName {
+  font-weight: bold;
+  color: #4b282b;
+}
+
+.depin, .desave {
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/depin.png);
+  background-position: center;
+  background-size: contain;
+}
+
+.desave {
+  margin-right: 0;
+  margin-left: auto;
+}

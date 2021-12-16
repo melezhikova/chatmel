@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="mainBox">
+    <header class="mainHeader">
+      <div>Chatmel</div>
+      <div class="userInfo">
+        <div class="userName"></div>
+        <img class="userPhoto">
+      </div>
+    </header>
+    <main class="mainContainer">
+      <aside class="asideMenu">
+        <div id="chat" class="menuItem menuItemActive">
+          <img class="menuImage" src="img/chat.png">
+          <div class="menuName">Чат</div>
+        </div>
+        <div id="saved" class="menuItem">
+          <img class="menuImage" src="img/saved.png">
+          <div class="menuName">Избранное</div>
+        </div>
+        <div id="folder" class="menuItem">
+          <img class="menuImage" src="img/folder.png">
+          <div class="menuName">Файлы</div>
+        </div>
+        <div id="bot" class="menuItem">
+          <img class="menuImage" src="img/bot.png">
+          <div class="menuName">Бот</div>
+        </div>
+      </aside>
+      <aside class="chats">
+        <div class="chatsListHeader">Чат</div>
+        <div class="chatsList"></div>
+      </aside>
+      <div class="chatContainer">
+        <header class="chatHeader">
+          <img class="chatInterlocutorPhoto">
+          <div class="chatName"></div>
+        </header>
+        <div class="messagesContainer"></div>
+        <div class="inputBox">
+          <form class="messageForm">
+            <input placeholder="Введите сообщение" class="messageInput" required>
+            <div class="sendingFilesBox hidden"></div>
+            <div class="chatTools">
+              <div class="addFileBox">
+                <input class="fileInput" type="file" accept="image/*, audio/*, video/*" multiple>
+                <div class="addFile"></div>
+              </div>
+              <div class="emoji"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    
+  </div>
+
+  <div class="modalBox">
+    <div class="modal">
+      <div class="modalHeader">Введите свое имя</div>
+      <form class="formName">
+        <div class="registrationMessage"></div>
+        <input class="inputName" required>
+        <button type="submit" class="btn">Продолжить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modalInformBox">
+    <div class="modal">
+      <div class="modalInfo"></div>
+      <div class="btnDiv">
+        <button id="infoBtn" type="button" class="btn">Продолжить</button>
+      </div>
+    </div>
+  </div>
+ 
+</body>
+</html>
