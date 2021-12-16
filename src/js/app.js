@@ -18,4 +18,3 @@ if (!registeredUser) {
   const user = new User(JSON.parse(registeredUser));
   user.addUserToDOM();
 }
-
