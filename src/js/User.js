@@ -24,6 +24,30 @@ export default class User {
     Requests.smthPOST({ name }, 'addInterlocutor', callback);
   }
 
+  static checkUser() {
+    const registeredUser = localStorage.getItem('user');
+    if (!registeredUser) {
+      const modal = document.querySelector('.modalBox');
+      modal.classList.add('active');
+      const nameInput = document.querySelector('.inputName');
+      const form = document.querySelector('.formName');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        User.register(nameInput.value);
+      });
+    } else {
+      const user = new User(JSON.parse(registeredUser));
+      user.addUserToDOM();
+    }
+  }
+
+  static removeUserFromDOM() {
+    const nameDiv = document.querySelector('.userName');
+    nameDiv.textContent = '';
+    const photoDiv = document.querySelector('.userPhoto');
+    photoDiv.src = '../src/img/user-without-photo.png';
+  }
+
   addUserToDOM() {
     const placeForId = document.querySelector('.mainHeader');
     placeForId.dataset.id = this.id;

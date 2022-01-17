@@ -6,7 +6,6 @@ export default class Chat {
   constructor(obj) {
     this.id = obj.id;
     this.interlocutor = obj.interlocutor;
-    this.messages = obj.messages;
   }
 
   addChatToList() {
@@ -37,7 +36,12 @@ export default class Chat {
         chat.addChatToList();
       });
       const activeChat = Chat.getActive();
-      Requests.byIdGET('chatById', activeChat, Message.drawChat);
+      const id = {
+        chatId: activeChat,
+        messageId: null,
+        method: 'drawchat',
+      };
+      Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
     }
     Requests.getAll('allChats', callback);
   }
@@ -63,7 +67,12 @@ export default class Chat {
     Chat.deactivateChat();
     event.currentTarget.classList.add('activeChat');
     const chatId = event.currentTarget.dataset.id;
-    Requests.byIdGET('chatById', chatId, Message.drawChat);
+    const id = {
+      chatId,
+      messageId: null,
+      method: 'drawchat',
+    };
+    Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
   }
 
   static deactivateChat() {

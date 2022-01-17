@@ -1,19 +1,19 @@
 import getTime from './time';
 import Requests from './Requests';
 import Transform from './Transform';
+import Modal from './Modal';
 
 export default class Message {
   constructor(obj) {
     this.id = obj.id;
     this.author = obj.author;
     this.time = obj.time;
-    this.text = obj.text;
+    this.msgdata = obj.msgdata;
     this.saved = obj.saved;
     this.pinned = obj.pinned;
   }
 
-  addMessageToDOM(id) {
-    const box = document.querySelector('.messagesContainer');
+  createMessageBox(id) {
     const photo = document.querySelector('.chatInterlocutorPhoto').src;
     const name = document.querySelector('.chatName').textContent;
 
@@ -51,9 +51,37 @@ export default class Message {
 
     const messageText = document.createElement('div');
     messageText.classList.add('messageText');
-    const msg = this.text;
-    const linksArr = msg.match(/http[^ ]+/g);
-    messageText.innerHTML = msg.replace(linksArr, (url) => `<a class="link" href="${url}">${url}</a>`);
+    const msg = this.msgdata.text;
+    if (msg) {
+      const linksArr = msg.match(/http[^ ]+/g);
+      messageText.innerHTML = msg.replace(linksArr, (url) => `<a class="link" href="${url}">${url}</a>`);
+    }
+    if (this.msgdata.files) {
+      this.msgdata.files.forEach((file) => {
+        if (file.includes('image/')) {
+          const img = document.createElement('img');
+          img.classList.add('imgInMessage');
+          img.classList.add('filesInMessage');
+          messageText.append(img);
+          img.src = file;
+        }
+        if (file.includes('audio/')) {
+          const aud = document.createElement('audio');
+          aud.setAttribute('controls', 'controls');
+          aud.classList.add('filesInMessage');
+          messageText.append(aud);
+          aud.src = file;
+        }
+        if (file.includes('video/')) {
+          const vid = document.createElement('video');
+          vid.classList.add('videoInMessage');
+          vid.classList.add('filesInMessage');
+          vid.setAttribute('controls', 'controls');
+          messageText.append(vid);
+          vid.src = file;
+        }
+      });
+    }
 
     messageBody.append(messageDetails);
     messageBody.append(messageText);
@@ -62,8 +90,8 @@ export default class Message {
     }
     messageBox.append(messageBody);
     messageBox.addEventListener('contextmenu', Message.msgMenu);
-    box.append(messageBox);
-    messageBox.scrollIntoView(false);
+
+    return messageBox;
   }
 
   static drawChat(data) {
@@ -78,8 +106,9 @@ export default class Message {
     boxForMessages.innerHTML = '';
     messages.forEach((item) => {
       const message = new Message(item);
-      message.addMessageToDOM();
+      boxForMessages.append(message.createMessageBox());
     });
+    boxForMessages.lastChild.scrollIntoView(false);
     if (data.pinnedMessage) {
       const pinned = document.querySelector('.pinnedBox');
       if (!pinned) {
@@ -92,19 +121,47 @@ export default class Message {
         const name = document.createElement('div');
         name.classList.add('pinnedName');
         name.textContent = 'Закрепленное сообщение';
-        const pinnedText = document.createElement('div');
-        pinnedText.classList.add('pinnedText');
-        if (data.pinnedMessage.text.length > 20) {
-          pinnedText.textContent = `${data.pinnedMessage.text.substring(0, 20)}...`;
-        } else {
-          pinnedText.textContent = data.pinnedMessage.text;
+        body.append(name);
+
+        if (data.pinnedMessage.msgdata.text) {
+          const pinnedText = document.createElement('div');
+          pinnedText.classList.add('pinnedText');
+          if (data.pinnedMessage.msgdata.text.length > 20) {
+            pinnedText.textContent = `${data.pinnedMessage.msgdata.text.substring(0, 20)}...`;
+          } else {
+            pinnedText.textContent = data.pinnedMessage.msgdata.text;
+          }
+          body.append(pinnedText);
         }
         const depin = document.createElement('div');
         depin.classList.add('depin');
         depin.addEventListener('click', Message.depinMessage);
 
-        body.append(name);
-        body.append(pinnedText);
+        if (data.pinnedMessage.msgdata.files) {
+          data.pinnedMessage.msgdata.files.forEach((file) => {
+            if (file.includes('image/')) {
+              const img = document.createElement('img');
+              img.classList.add('imgInPinnedMessage');
+              body.append(img);
+              img.src = file;
+            }
+            if (file.includes('audio/')) {
+              const aud = document.createElement('audio');
+              aud.classList.add('audioInPinnedMessage');
+              aud.setAttribute('controls', 'controls');
+              body.append(aud);
+              aud.src = file;
+            }
+            if (file.includes('video/')) {
+              const vid = document.createElement('video');
+              vid.classList.add('videoInPinnedMessage');
+              vid.setAttribute('controls', 'controls');
+              body.append(vid);
+              vid.src = file;
+            }
+          });
+        }
+
         body.addEventListener('click', Message.showPinnedMsg);
         pinnedBox.append(body);
         pinnedBox.append(depin);
@@ -125,23 +182,73 @@ export default class Message {
     }
   }
 
+  static getPreviousMessages(chatId) {
+    const container = document.querySelector('.messagesContainer');
+    const messageId = container.firstChild.getAttribute('id');
+    const id = {
+      chatId,
+      messageId,
+      method: 'getmoremsg',
+    };
+    function callback(data) {
+      const displayedMsg = [];
+      Array.from(document.querySelectorAll('.messageBox')).forEach((item) => displayedMsg.push(item.getAttribute('id')));
+      const { messages } = data;
+      messages.reverse().forEach((item) => {
+        const index = displayedMsg.findIndex((elem) => elem === item.id);
+        if (index === -1) {
+          const message = new Message(item);
+          container.insertBefore(message.createMessageBox(), container.firstChild);
+        }
+      });
+    }
+    Requests.byIdGET('chatById', JSON.stringify(id), callback);
+  }
+
   static inputedMessage(event) {
     event.preventDefault();
+    Message.sendMessage();
+  }
+
+  static enteredMessage(data) {
+    console.log(data);
+  }
+
+  static sendMessage() {
     const chatId = document.querySelector('.chatHeader').dataset.id;
     const input = document.querySelector('.messageInput');
-    const time = getTime();
-    const message = new Message({
-      author: 'user',
-      time,
-      text: input.value,
-      saved: false,
-      pinned: false,
-    });
-    function callback(id) {
-      message.addMessageToDOM(id);
+    const files = Array.from(document.querySelectorAll('.filesForSend'));
+    const msgdata = {};
+    if (input.value) {
+      msgdata.text = input.value;
     }
-    Requests.smthPOST({ id: chatId, message }, 'addMessage', callback);
-    input.value = '';
+    if (files.length > 0) {
+      msgdata.files = [];
+      files.forEach((file) => msgdata.files.push(file.src));
+    }
+    if (!input.value && files.length === 0) {
+      Modal.informModal('Вы пытаетесь отправить пустое сообщение');
+    } else {
+      const time = getTime();
+      const message = new Message({
+        author: 'user',
+        time,
+        msgdata,
+        saved: false,
+        pinned: false,
+      });
+      const callback = (id) => {
+        const container = document.querySelector('.messagesContainer');
+        container.append(message.createMessageBox(id));
+        container.lastChild.scrollIntoView(false);
+      };
+      Requests.smthPOST({ id: chatId, message }, 'addMessage', callback);
+
+      input.value = '';
+      document.querySelector('.sendingFilesBox').innerHTML = '';
+      document.querySelector('.sendingFilesBox').classList.add('hidden');
+      input.classList.remove('msgWithFiles');
+    }
   }
 
   static msgMenu(event) {
@@ -207,8 +314,14 @@ export default class Message {
       id: idChat,
       message: { id: idMessage },
     };
+    const firstShowedMsg = document.querySelector('.messagesContainer').firstChild.getAttribute('id');
+    const id = {
+      chatId: idChat,
+      messageId: firstShowedMsg,
+      method: 'drawchat',
+    };
     function callback() {
-      Requests.byIdGET('chatById', idChat, Message.drawChat);
+      Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
     }
     Requests.smthPOST(options, 'deleteMessage', callback);
   }
@@ -233,16 +346,22 @@ export default class Message {
           id: message.id,
           author: message.author,
           time: message.time,
-          text: message.text,
+          msgdata: message.msgdata,
         },
       };
       const optionsForUpdate = {
         id: idChat,
         message,
       };
+      const firstShowedMsg = document.querySelector('.messagesContainer').firstChild.getAttribute('id');
+      const id = {
+        chatId: idChat,
+        messageId: firstShowedMsg,
+        method: 'drawchat',
+      };
       Requests.smthPOST(optionsForSave, 'addSavedMessage', () => {
         Requests.smthPOST(optionsForUpdate, 'updateMessage', () => {
-          Requests.byIdGET('chatById', idChat, Message.drawChat);
+          Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
         });
       });
     }
@@ -259,14 +378,20 @@ export default class Message {
         id: message.id,
         author: message.author,
         time: message.time,
-        text: message.text,
+        msgdata: message.msgdata,
         saved: 'false',
         pinned: message.pinned,
       },
     };
+    const firstShowedMsg = document.querySelector('.messagesContainer').firstChild.getAttribute('id');
+    const id = {
+      chatId: idChat,
+      messageId: firstShowedMsg,
+      method: 'drawchat',
+    };
     Requests.smthPOST(optionsForDeSave, 'deleteSavedMessage', () => {
       Requests.smthPOST(optionsForUpdate, 'updateMessage', () => {
-        Requests.byIdGET('chatById', idChat, Message.drawChat);
+        Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
       });
     });
   }
@@ -294,17 +419,22 @@ export default class Message {
           id: idChat,
           message: {
             id: message.id,
-            text: message.text,
+            msgdata: message.msgdata,
           },
         };
         const optionsForUpdate = {
           id: idChat,
           message,
         };
-
+        const firstShowedMsg = document.querySelector('.messagesContainer').firstChild.getAttribute('id');
+        const id = {
+          chatId: idChat,
+          messageId: firstShowedMsg,
+          method: 'drawchat',
+        };
         Requests.smthPOST(optionsForPin, 'addPinnedMessage', () => {
           Requests.smthPOST(optionsForUpdate, 'updateMessage', () => {
-            Requests.byIdGET('chatById', idChat, Message.drawChat);
+            Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
           });
         });
       }
@@ -331,9 +461,15 @@ export default class Message {
         id: idChat,
         message,
       };
+      const firstShowedMsg = document.querySelector('.messagesContainer').firstChild.getAttribute('id');
+      const id = {
+        chatId: idChat,
+        messageId: firstShowedMsg,
+        method: 'drawchat',
+      };
       Requests.smthPOST(optionsForDePin, 'deletePinnedMessage', () => {
         Requests.smthPOST(optionsForUpdate, 'updateMessage', () => {
-          Requests.byIdGET('chatById', idChat, Message.drawChat);
+          Requests.byIdGET('chatById', JSON.stringify(id), Message.drawChat);
         });
       });
     }
@@ -350,7 +486,17 @@ export default class Message {
     const { id } = div;
     const { saved } = div.dataset;
     const { pinned } = div.dataset;
+    const msgdata = {};
+    const files = Array.from(div.querySelectorAll('.filesInMessage'));
+
+    if (files.length > 0) {
+      msgdata.files = [];
+      files.forEach((el) => msgdata.files.push(el.getAttribute('src')));
+    }
     const text = div.querySelector('.messageText').textContent;
+    if (text) {
+      msgdata.text = text;
+    }
     const time = div.querySelector('.messageTime').textContent;
     let author;
     if (Array.from(div.classList).includes('user')) {
@@ -363,7 +509,7 @@ export default class Message {
       id,
       author,
       time,
-      text,
+      msgdata,
       saved,
       pinned,
     };

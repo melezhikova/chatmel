@@ -6,11 +6,16 @@ export default class Bot {
     const commands = [
       { id: 'weather', name: 'Про погоду?' },
       { id: 'quote', name: 'Цитата дня' },
+      { id: 'horoscope', name: 'Гороскоп на сегодня' },
+      { id: 'news', name: 'Последние новости' },
+      { id: 'exchangeRates', name: 'Текущие курсы на бирже' },
     ];
     const nameBox = document.querySelector('.chatsListHeader');
     nameBox.textContent = 'Бот';
     const chatName = document.querySelector('.chatName');
     chatName.textContent = '';
+    const placeForId = document.querySelector('.chatHeader');
+    placeForId.dataset.id = 'Бот';
     const photo = document.querySelector('.chatInterlocutorPhoto');
     photo.src = '../src/img/bot.png';
     Transform.hideInput();

@@ -13,6 +13,7 @@
       <div class="userInfo">
         <div class="userName"></div>
         <img class="userPhoto">
+        <div class="exit" title="Выйти"></div>
       </div>
     </header>
     <main class="mainContainer">
@@ -46,14 +47,14 @@
         <div class="messagesContainer"></div>
         <div class="inputBox">
           <form class="messageForm">
-            <input placeholder="Введите сообщение" class="messageInput" required>
+            <input name="text" placeholder="Введите сообщение" class="messageInput">
             <div class="sendingFilesBox hidden"></div>
             <div class="chatTools">
-              <div class="addFileBox">
-                <input class="fileInput" type="file" accept="image/*, audio/*, video/*" multiple>
+              <div class="addFileBox" title="Прикрепить файл">
+                <input name="files" class="fileInput" type="file" accept="image/*, audio/*, video/*" multiple>
                 <div class="addFile"></div>
               </div>
-              <div class="emoji"></div>
+              <div class="location" title="Отправить геолокацию"></div>
             </div>
           </form>
         </div>
@@ -78,6 +79,16 @@
       <div class="modalInfo"></div>
       <div class="btnDiv">
         <button id="infoBtn" type="button" class="btn">Продолжить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalAgreeBox">
+    <div class="modal">
+      <div class="modalInfo"></div>
+      <div class="twoBtnsDiv">
+        <button id="yesBtn" type="button" class="btn">Да</button>
+        <button id="noBtn" type="button" class="btn">Нет</button>
       </div>
     </div>
   </div>

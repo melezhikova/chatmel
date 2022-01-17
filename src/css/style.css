@@ -42,6 +42,17 @@ body {
   background-color: rgb(247, 247, 218);
 }
 
+.exit {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  background-image: url('../img/exit.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
 .mainContainer {
   display: flex;
   height: 100%;
@@ -151,7 +162,7 @@ body {
   width: 48px;
   height: 48px;
   margin: 8px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .chatName {
@@ -196,7 +207,7 @@ body {
   margin-bottom: 5px;
 }
 
-.messageAuthor {
+.messageAuthor, .chat {
   font-weight: bold;
   margin-right: 15px;
 }
@@ -255,16 +266,55 @@ body {
   border-radius: 0 0 10px 10px;
 }
 
-.imgInMessage {
-  width: 50px;
-  height: 50px;
-  margin-right: 5px;
+.mediaContainer {
+  position: relative;
+  width: 90px;
+  height: 70px;
+  margin: 10px 5px 0;
+}
+
+.imgInMessage, .videoInMessage {
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.mediaCancel {
+  width: 1em;
+  height: 0.7em;
+  font-size: 10px;
+  position: absolute;
+  top: -1.5em;
+  left: 0;  
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+  
+.mediaCancel:before, .mediaCancel:after {
+  content: "";
+  background-color: black;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.4em;
+  height: 0.2em;
+}
+
+.mediaCancel:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.mediaCancel:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .chatTools {
-  display: inline-block;
+  display: flex;
   margin-top: 10px;
-  cursor: pointer;
 }
 
 .addFileBox {
@@ -298,8 +348,20 @@ body {
   pointer-events: none;
 }
 
+.location {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  background-image: url('../img/location.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.5;
+  cursor: pointer;
+}
 
-.modalBox, .modalInformBox {
+
+.modalBox, .modalInformBox, .modalAgreeBox {
   visibility: hidden;
   position: fixed;
   display: flex;
@@ -310,7 +372,7 @@ body {
   z-index: 1;
 }
 
-.modalBox::before, .modalInformBox::before {
+.modalBox::before, .modalInformBox::before, .modalAgreeBox::before {
   content: '';
   position: absolute;
   top: 0;
@@ -363,6 +425,10 @@ body {
   border-radius: 5px;
 }
 
+.twoBtnsDiv {
+  display: flex;
+}
+
 .btn, .commandButton {
   font-size: 0.8em;
   display: block;
@@ -376,10 +442,10 @@ body {
   background-color: #77252e;
 }
 
-
 .commandButton {
   margin-left: auto;
   margin-right: auto;
+  cursor: pointer;
 }
 
 .bot {
@@ -415,6 +481,21 @@ body {
   color: #4b282b;
 }
 
+.imgInPinnedMessage {
+  width: 30px;
+  height: 30px;
+}
+
+.videoInPinnedMessage {
+  width: 50px;
+  height: 30px;
+}
+
+.audioInPinnedMessage {
+  width: 100px;
+  height: 30px;
+}
+
 .depin, .desave {
   width: 20px;
   height: 20px;
@@ -426,4 +507,8 @@ body {
 .desave {
   margin-right: 0;
   margin-left: auto;
+}
+
+.chat {
+  margin-right: 10px;
 }
