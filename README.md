@@ -2,6 +2,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/g5mlxgvhm4dvvgm4?svg=true)](https://ci.appveyor.com/project/melezhikova/chatmel-front)
 
+https://melezhikova.github.io/chatmel_front/
+
 ### Реализованы следующие функции:
 
 * Сохранение в истории текстовых сообщений
@@ -37,3 +39,4 @@
 ![скрин визуализации меню файлы](src/scrins/folder.png)
 * Реализован интерфейс для отправки команд боту. Для перехода необходимо нажать в боковом меню слева кнопку "Бот". Далее, нажимая кнопки в списке команд, получаем ответ от бота
 ![скрин визуализации бота](src/scrins/pinned.png)
+
