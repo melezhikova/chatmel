@@ -29,8 +29,8 @@ export default function showFiles(files) {
   files.forEach((file) => {
     if (file.size > 800000) {
       Modal.informModal('Вы можете загрузить файл размером не более 780 Кбит');
-      const files = document.querySelectorAll('.filesForSend');
-      if (files.length === 0) {
+      const forSend = document.querySelectorAll('.filesForSend');
+      if (forSend.length === 0) {
         box.classList.add('hidden');
         document.querySelector('.messageInput').classList.remove('msgWithFiles');
       }
