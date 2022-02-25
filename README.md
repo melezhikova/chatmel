@@ -4,6 +4,8 @@
 
 https://melezhikova.github.io/chatmel_front/
 
+Репозиторий с бэкендом: https://github.com/melezhikova/chatmel_back
+
 ### Реализованы следующие функции:
 
 * Сохранение в истории текстовых сообщений
