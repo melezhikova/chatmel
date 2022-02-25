@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/g5mlxgvhm4dvvgm4?svg=true)](https://ci.appveyor.com/project/melezhikova/chatmel-front)
 
-https://melezhikova.github.io/chatmel_front/
+https://melezhikova.github.io/chatmel/
 
 Репозиторий с бэкендом: https://github.com/melezhikova/chatmel_back
 
